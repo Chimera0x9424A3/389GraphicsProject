@@ -16,3 +16,6 @@ Check files for simple Big Red mobile mesh
   Panels are either circles or "boomarangs"
   Pieces have been rotated about the center for 3D effect
   1766 vertices; 14 faces
+
+1/28
+Decided on museum theme: H. R. Giger
