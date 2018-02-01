@@ -19,3 +19,6 @@ Check files for simple Big Red mobile mesh
 
 1/28
 Decided on museum theme: H. R. Giger
+
+2/1
+Included simple museum model under Models
