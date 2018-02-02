@@ -1,6 +1,6 @@
-# 389GraphicsProject
-End result: art museum
-End lines with 2 spaces for formatting
+# 389GraphicsProject  
+End result: art museum  
+End lines with 2 spaces for formatting  
 
 1/17  
 Possible sculpture/model: "Big Red" by Alexander Calder  
