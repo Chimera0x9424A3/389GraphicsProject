@@ -37,18 +37,19 @@ a. What is the theme of your museum:
 b. How many rooms will your museum have:  
     one main one with subdivisions/internal walls (check museum model)  
 c. Have you started looking for textures for your museum walls/floors? If so, what are your plans:  
-    
+    Have a couple possiblities for floor and ceiling: stone/metal mix  
+    Check textures folder for more info  
 d. Will your museum have a ceiling:   
     Yes. Flat for part of it and dome for the middle (check museum model)  
 e. You must have at least ONE “sculpture” in your museum. What are you planning to use for
  your sculpture(s):  
     BigRed model from the cover of the algorithms book  
-    We currently have a simplified version in our Models folder  
+    We currently have a simplified version in our Models folder
+    Might switch to Xenomorph model if we have time  
 f. You must have at least FOUR “paintings” in your museum. What were you planning to use for  
  your pictures? Have you already started looking for textures that can be applied as “pictures”?  
  Will your pictures be hung on the wall? Will they be murals? Do you have a completely different  
- idea of how these paintings will be added to your museum:  
-    
-    
-    
-    
+ idea of how these paintings will be added to your museum:
+    All paintings/art of H. R. Geiger  
+    Some hung on walls, possibly some murals as well, depending on size  
+    Check wall art folder for more details  
