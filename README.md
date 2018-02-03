@@ -24,6 +24,9 @@ Decided on museum theme: H. R. Giger
 2/1  
 Included simple museum model under Models  
 
+![alt tag](https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/Readme1.png)
+
+![alt tag](https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/Readme2.png)
 
 
 2/2  
@@ -45,5 +48,7 @@ f. You must have at least FOUR “paintings” in your museum. What were you pla
  your pictures? Have you already started looking for textures that can be applied as “pictures”?  
  Will your pictures be hung on the wall? Will they be murals? Do you have a completely different  
  idea of how these paintings will be added to your museum:  
+    
+    
     
     
