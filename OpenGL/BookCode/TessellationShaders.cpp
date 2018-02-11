@@ -78,6 +78,7 @@ public:
         //Draw stuff (for triangles)!
 		glDrawArrays(GL_PATCHES, 0, 3);
 
+
         //Draw stuff for (tessellations)!
         // 3 points per patch
         //glPatchParameteri(GL_PATCH_VERTICES, 3);
@@ -106,9 +107,9 @@ public:
             "                                                                           \n"
 			"void main(void)														    \n"
 			"{                                                                          \n"
-            "   const vec4 vertices[3] = vec4[3](vec4(  0.25,  -0.25,  0.5,  1.0),      \n"
-            "                                    vec4( -0.25,  -0.25,  0.5,  1.0),      \n"
-            "                                    vec4(  0.25,   0.25,  0.5,  1.0));     \n"
+            "   const vec4 vertices[3] = vec4[3](vec4(  0.75,  -0.75,  0.5,  1.0),      \n"
+            "                                    vec4( -0.75,  -0.75,  0.5,  1.0),      \n"
+            "                                    vec4(  0.75,   0.75,  0.5,  1.0));     \n"
             "   gl_Position = vertices[gl_VertexID] + offset;                           \n"
             //"   t_out.tcolor = tricolor;                                                \n"
 			"}                                                                          \n"
@@ -125,10 +126,10 @@ public:
             "void main(void)                                    \n"
             "{                                                  \n"
             "   if (gl_InvocationID == 0) {                     \n"
-            "       gl_TessLevelInner[0] = 3.0;                 \n"
-            "       gl_TessLevelOuter[1] = 3.0;                 \n"
-            "       gl_TessLevelOuter[2] = 3.0;                 \n"
-            "       gl_TessLevelOuter[3] = 3.0;                 \n"
+            "       gl_TessLevelInner[0] = 7.0;                 \n"
+            "       gl_TessLevelOuter[0] = 7.0;                 \n"
+            "       gl_TessLevelOuter[1] = 7.0;                 \n"
+            "       gl_TessLevelOuter[2] = 7.0;                 \n"
             "   }                                               \n"
             "   gl_out[gl_InvocationID].gl_Position =           \n"
             "       gl_in[gl_InvocationID].gl_Position;         \n"
