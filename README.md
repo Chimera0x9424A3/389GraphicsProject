@@ -53,3 +53,13 @@ f. You must have at least FOUR “paintings” in your museum. What were you pla
     All paintings/art of H. R. Geiger  
     Some hung on walls, possibly some murals as well, depending on size  
     Check wall art folder for more details  
+    
+
+2/13
+Check here for our museum model (subdivided into subpanels for easier texturing):  
+https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/Models/MuseumSubpanels.blend
+
+
+
+
+
