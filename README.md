@@ -60,7 +60,7 @@ Check here for our museum model (subdivided into subpanels for easier texturing)
 https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/Models/MuseumSubpanels.blend  
 
 
-2/14  
+2/22  
 Some models are loading!!!  
 Cube and other simple object  
 Can toggle between two different models and display modes (wireframe/filled in)  
