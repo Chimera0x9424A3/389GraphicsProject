@@ -65,4 +65,5 @@ Some models are loading!!!
 Cube and other simple object  
 Can toggle between two different models and display modes (wireframe/filled in)  
   Check ToggleTime.cpp  
-Next step: maybe change the viewpoint?  
+  Next step(s): deal with normals; normalize incoming verts  
+Next next step: maybe change the viewpoint?  
