@@ -67,3 +67,11 @@ Can toggle between two different models and display modes (wireframe/filled in)
   Check ToggleTime.cpp  
   Next step(s): deal with normals; normalize incoming verts  
 Next next step: maybe change the viewpoint?  
+
+3/5
+The museum can load into the window!
+Looks a bit funny though: check into that
+Dealt with normalizing incoming verts (individually as they are read in, with normalize function)  
+Maybe this is what messed up the look of the museum?  
+Still tyring to figure out how to rotate around it  
+Also have cube loading in as well--should remove that soon  
