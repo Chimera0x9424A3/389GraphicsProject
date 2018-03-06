@@ -69,9 +69,11 @@ Can toggle between two different models and display modes (wireframe/filled in)
 Next next step: maybe change the viewpoint?  
 
 3/5  
-The museum can load into the window!
-Looks a bit funny though: check into that
+The museum can load into the window!  
+Looks a bit funny though: check into that  
 Dealt with normalizing incoming verts (individually as they are read in, with normalize function)  
 Maybe this is what messed up the look of the museum?  
 Still tyring to figure out how to rotate around it  
 Also have cube loading in as well--should remove that soon  
+Check here for current code:  
+https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/OpenGL/ProjectCode/MuseumFirstLoad.cpp  
