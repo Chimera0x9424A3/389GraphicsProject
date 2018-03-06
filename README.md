@@ -77,3 +77,4 @@ Still tyring to figure out how to rotate around it
 Also have cube loading in as well--should remove that soon  
 Check here for current code:  
 https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/OpenGL/ProjectCode/MuseumFirstLoad.cpp  
+Next step: clean up old code, create (and use!) .h file for functions  
