@@ -68,7 +68,7 @@ Can toggle between two different models and display modes (wireframe/filled in)
   Next step(s): deal with normals; normalize incoming verts  
 Next next step: maybe change the viewpoint?  
 
-3/5
+3/5  
 The museum can load into the window!
 Looks a bit funny though: check into that
 Dealt with normalizing incoming verts (individually as they are read in, with normalize function)  
