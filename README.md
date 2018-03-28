@@ -78,3 +78,14 @@ Also have cube loading in as well--should remove that soon
 Check here for current code:  
 https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/OpenGL/ProjectCode/MuseumFirstLoad.cpp  
 Next step: clean up old code, create (and use!) .h file for functions  
+
+3/27
+OMG!!!!  
+The museum is still there (after normalizing with blender)  
+It has colors!  
+It can rotate!  
+It can translate!  
+You can "move" toward it!  
+All through the magic of matrices!!!  
+Next steps: move the camera, fix "clipping" out of frame when zoomed in too far, add textures  
+https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/OpenGL/ProjectCode/GettingThere
