@@ -90,3 +90,14 @@ All through the magic of matrices!!!
 Next steps: move the camera, fix "clipping" out of frame when zoomed in too far, add textures  
 https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/OpenGL/ProjectCode/GettingThere
 ![alt tag](https://github.com/Chimera0x9424A3/389GraphicsProject/blob/master/Readme3.png)
+
+4/4  
+No textures yet  
+Trying to integrate SOIL with code for textures  
+UVs are there (at least loaded in)? but no textures yet  
+Museum is still clipping weirdly; can see front from back and visa versa  
+Tried to fix that with depth stuff, no luck so far  
+Going to meet with Amy tomorrow to try and fix textures  
+
+
+
