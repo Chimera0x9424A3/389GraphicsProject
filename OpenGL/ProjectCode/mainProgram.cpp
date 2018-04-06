@@ -85,7 +85,7 @@ public:
 
     void startup() {
         //faces = fillVerts("C:\\Users\\Cocoa\\source\\repos\\GraphicsProject\\GraphicsProject\\blender\\MuseumPartial.obj", faces);
-        faces = fillVerts("blender\\MuseumPartial.obj", faces);
+        faces = fillVerts("blender\\MuseumSolid.obj", faces);
         if (faces == NULL) {
             return;
         }
@@ -138,6 +138,7 @@ public:
      
         //glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping ( NEW )
         //glShadeModel(GL_SMOOTH);
+        loadTextures();
         rendering_program = compile_shaders();
     }
 
@@ -158,9 +159,12 @@ public:
     //Includes fancier versions!
     void render(double currentTime) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //glEnable(GL_CULL_FACE);
-        //glFrontFace(GL_CW);
-        //glCullFace(GL_BACK);
+        glCullFace(GL_FRONT);
+        glEnable(GL_DEPTH_TEST);
+        //glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glDisable(GL_LIGHTING);
+
         //glDepthRange(-1, 1);
         //glEnable(GL_DEPTH_TEST);
         glNamedBufferSubData(myBuff1, 0, facesSize1, faces);
@@ -200,7 +204,7 @@ public:
 
         //"Dynamic" drawing!!
         glDrawArrays(GL_TRIANGLES, 0, facesSize1 / sizeof(glm::vec4));
-
+        //glColor4f(0.5f, 0.7f, 0.9f, 1.0f);
         //rotate = 0;
         //Draw a BIG point! (needed to draw a point)
         //glPointSize(15.0f);
@@ -273,10 +277,12 @@ public:
             "     float r = Colors.x;                            \n"
             "     float g = Colors.y;                            \n"
             "     float b = Colors.z;                            \n"
-            "     triColor = vec4(r, g, 1-b, 1.0);                  \n"
+            //"     triColor = vec4(mix(vec3(r, g, b), vec3(Texs, 1.0), 23.0f), 1.0f);                    \n"
             //"     triColor = vec4(Texs, 0.5, 1.0) * vec4(1-r, 1-g, 1-b, 1.0);                               \n"
-            //"     triColor = texture(tex2d, Texs) * vec4(Colors, 1.0);      \n"
-            //"triColor = color;                                  \n"
+            "     triColor = texture(tex2d, Texs);\n"// * vec4(Colors, 1.0);      \n"
+            //"     triColor = vec4(Texs, 0.0f, 1.0f);\n"
+            //"triColor = vec4(r, g, b, 1.0f);                                  \n"
+            "     triColor = texture(tex2d, Texs);      \n"
             "}                                                  \n"
         };
 
@@ -356,7 +362,6 @@ public:
 
 int main() {
     my_application triangle;
-    loadTextures();
     int a = 1;
     int wire = 0;
     glm::mat4 myMatrix;
@@ -364,6 +369,9 @@ int main() {
     glm::mat4 backward;
     glm::mat4 lookLeft;
     glm::mat4 lookRight;
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_TEXTURE_2D);
+    glFrontFace(GL_CCW);
     //glEnable(GL_DEPTH_TEST);
     //glDepthFunc(GL_NEVER);
     //glDepthRange(5, -5);
@@ -377,9 +385,14 @@ int main() {
         0, 0, 0.997, 0,
         0, 0, 0, 1);
 
-    forward = glm::mat4(1.003, 0, 0, 0,
-        0, 1.003, 0, 0,
-        0, 0, 1.003, 0,
+    //forward = glm::mat4(1.003, 0, 0, 0,
+    //    0, 1.003, 0, 0,
+    //    0, 0, 1.003, 0,
+    //    0, 0, 0, 1);
+
+    forward = glm::mat4(1, 0, 0, 0,
+        0, 0.993, 0.118, 0,
+        0, -0.118, 0.993, 0,
         0, 0, 0, 1);
 
     //backward = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -0.01f));

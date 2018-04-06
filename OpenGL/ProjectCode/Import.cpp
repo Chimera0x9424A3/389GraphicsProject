@@ -189,7 +189,7 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
                     setColor(0.25, l);
                     break;
                 case 'C':
-                    setColor(0, l);
+                    setColor(0.15, l);
                     break;
                 case 'D':
                     setColor(0.35, l);
@@ -198,6 +198,7 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
                     setColor(0.45, l);
                     break;
                 case 'L':
+                case 'W':
                     setColor(0.55, l);
                     break;
                 case 'M':
@@ -209,8 +210,8 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
                 case 'P':
                     setColor(0.85, l);
                     break;
-                case 'W':
-                    setColor(0.95, l);
+                /*case 'W':
+                    setColor(0.95, l);*/
                     break;
                 default:
                     setColor(0, l);
@@ -267,27 +268,37 @@ void loadTextures() {
     //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
         //GL_UNSIGNED_BYTE, image);
 
-
-    GLuint tex;
-    glGenTextures(1, &tex);
-    glBindTexture(GL_TEXTURE_2D, tex);
+    GLuint tex2d;
+    glGenTextures(1, &tex2d);
+    //glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, tex2d);
 
     int width, height;
-    unsigned char* SpookyWalls1 = SOIL_load_image("\blender\WallArt\WallArt4BMP.bmp", &width, &height, 0, SOIL_LOAD_RGB);
-   
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, SpookyWalls1);
-    
-    SOIL_free_image_data(SpookyWalls1);
+    unsigned char* SpookyWalls1 = SOIL_load_image("WallArt4BMP.bmp", &width, &height, 0, SOIL_LOAD_RGB);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    if (SpookyWalls1 == NULL) {
+        cout << "Error with tex file\n";
+
+    }
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, SpookyWalls1);
+    
+    //float pixels[] = {
+    //    0.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,
+    //    1.0f, 1.0f, 1.0f,   0.0f, 0.0f, 0.0f
+    //};
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_FLOAT, pixels);
 
     /*glBindTexture(GL_TEXTURE_2D, SpookyWalls1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glGenerateMipmap(GL_TEXTURE_2D);*/
+
+    //SOIL_free_image_data(SpookyWalls1);
 
     //SOIL_free_image_data(SpookyWalls1);
 
