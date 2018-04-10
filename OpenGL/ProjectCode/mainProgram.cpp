@@ -45,6 +45,7 @@ int facesSize1 = 0;
 glm::vec3* faces2; //from verts to faces
 int facesSize2 = 0;
 
+int* texmatData;
 
 // Create a class for our application
 class my_application {
@@ -66,6 +67,8 @@ private:
     GLuint myBuff2;
     GLuint myBuff3;
     GLuint myBuff4;
+    //GLuint myBuff5;
+    GLuint myTextures[15];
     GLuint vao;
     Assimp::Importer importStuff;
 
@@ -91,6 +94,8 @@ public:
         }
 
         facesSize1 = numFaces * 3 * 16;
+        //facesSize1 = numFaces * 3 * 12;
+        //cout << "\n " << numFaces;
         //glEnable(GL_TEXTURE_2D);
 
         //faces2 = fillVerts("blender\\CubeSpinBig.obj", faces2);
@@ -99,11 +104,12 @@ public:
         glCreateVertexArrays(1, &vao);
         glBindVertexArray(vao);
 
-        //buffers for faces and verts
+        //buffers for faces and verts and textures
         glCreateBuffers(1, &myBuff1);
         glCreateBuffers(1, &myBuff2);
         glCreateBuffers(1, &myBuff3);
         glCreateBuffers(1, &myBuff4);
+        //glCreateBuffers(1, &myBuff5);
 
         //each vert is a float which takes up 4 bytes!
         glNamedBufferStorage(myBuff1, facesSize1, faces, GL_MAP_READ_BIT | GL_DYNAMIC_STORAGE_BIT | GL_MAP_WRITE_BIT);
@@ -113,33 +119,47 @@ public:
         glNamedBufferStorage(myBuff3, colorsSize, colors, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
 
         glNamedBufferStorage(myBuff4, texturesSize, textures, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
+
+        //glNamedBufferStorage(myBuff5, numFaces * 4, texmatData, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
         //glNamedBufferStorage(myBuff, vertsSize, verts, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
         //glNamedBufferStorage(myBuff, sizeof(data5), data5, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
         glBindBuffer(GL_ARRAY_BUFFER, myBuff1);
         glBindBuffer(GL_ARRAY_BUFFER, myBuff2);
         glBindBuffer(GL_ARRAY_BUFFER, myBuff3);
         glBindBuffer(GL_ARRAY_BUFFER, myBuff4);
+        //glBindBuffer(GL_ARRAY_BUFFER, myBuff5);
+        //cout << "\n" << facesSize1/4 << "HEY faces!!!\n\n";
+        //cout << "\n" << texturesSize/4 << "HEY tex!!!\n\n";
+
+        //for (int i = 0; i < numFaces; i++) {
+           //cout << "this tex " << texmatData[i] << "\n";
+            //cout << "this tex y " << textures[i].y;
+           // cout << "\n";
+        //}
 
 
         glVertexArrayVertexBuffer(vao, 0, myBuff1, 0, sizeof(glm::vec4));
         glVertexArrayVertexBuffer(vao, 1, myBuff2, 0, sizeof(glm::vec3));
         glVertexArrayVertexBuffer(vao, 4, myBuff3, 0, sizeof(glm::vec3));
         glVertexArrayVertexBuffer(vao, 5, myBuff4, 0, sizeof(glm::vec2));
+        //glVertexArrayVertexBuffer(vao, 6, myBuff5, 0, sizeof(int));
 
         glVertexArrayAttribFormat(vao, 0, 4, GL_FLOAT, GL_FALSE, 0);
         glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 0);
         glVertexArrayAttribFormat(vao, 4, 3, GL_FLOAT, GL_FALSE, 0);
         glVertexArrayAttribFormat(vao, 5, 2, GL_FLOAT, GL_FALSE, 0);
+        //glVertexArrayAttribFormat(vao, 6, 1, GL_INT, GL_FALSE, 0);
 
         glEnableVertexArrayAttrib(vao, 0);
         glEnableVertexArrayAttrib(vao, 1);
         glEnableVertexArrayAttrib(vao, 4);
         glEnableVertexArrayAttrib(vao, 5);
+        //glEnableVertexArrayAttrib(vao, 6);
      
-        //glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping ( NEW )
         //glShadeModel(GL_SMOOTH);
-        loadTextures();
+        //generate/link textures
         rendering_program = compile_shaders();
+        loadTextures(myTextures, rendering_program);
     }
 
     void shutdown() {
@@ -149,7 +169,9 @@ public:
         glDeleteBuffers(1, &myBuff2);
         glDeleteBuffers(1, &myBuff3);
         glDeleteBuffers(1, &myBuff4);
-        glDeleteTextures(1, &tex);
+        //glDeleteBuffers(1, &myBuff5);
+        //glDeleteTextures(1, &tex);
+        glDeleteTextures(15, myTextures);
         glDeleteProgram(rendering_program);
         glDeleteVertexArrays(1, &vao);
     }
@@ -200,6 +222,7 @@ public:
 
         //glVertexAttribI1i(2, rotate);
         glVertexAttrib4fv(3, tripos);
+        glVertexAttrib4iv(7, texmatData);
         //glVertexAttrib4fv(5, look);
 
         //"Dynamic" drawing!!
@@ -225,9 +248,11 @@ public:
             " layout (location = 3) in vec3 offset;                                     \n"
             " layout (location = 4) in vec3 color;                                      \n"
             " layout (location = 5) in vec2 tex;                                        \n"
+            " layout (location = 7) in int whichTex;                                    \n"
             "out vec3 Normals;                                                          \n"
             "out vec3 Colors;                                                           \n"
             "out vec2 Texs;                                                             \n"
+            "flat out int thisTex;                                                           \n"
             "                                                                           \n"
             //" out vec4 vertexPos;                                                       \n"
             "                                                                           \n"
@@ -246,23 +271,76 @@ public:
             "   Normals = normal;                                                       \n"
             "   Colors = color;                                                         \n"
             "   Texs = tex;                                                             \n"
+            "   thisTex = whichTex;                                                     \n"
             "}                                                                          \n"
         };
 
 
 
         // Source code for fragment shader
+        //switch is based on color setter switch in import.cpp
         static const GLchar * fragment_shader_source[] = {
             "#version 450 core                                  \n"
             "in vec3 Normals;                                   \n"
             "in vec3 Colors;                                    \n"
             "in vec2 Texs;                                      \n"
-            "uniform sampler2D tex2d;                          \n"
+            "flat in int thisTex;                               \n"
+            "uniform sampler2D fbwall;                          \n"
+            "uniform sampler2D ceiling;                         \n"
+            "uniform sampler2D base;                            \n"
+            "uniform sampler2D lrwall;                          \n"
+            "uniform sampler2D doorway;                         \n"
+            "uniform sampler2D panel1;                          \n"
+            "uniform sampler2D panel3;                          \n"
+            "uniform sampler2D panel4;                          \n"
+            //"uniform sampler2D panel4;                          \n"
+            //"uniform sampler2D top;                             \n"
+            "uniform sampler2D floor;                             \n"
             "out vec4 triColor;                                 \n"
-            //"uniform vec3 lightPos;                             \n"
             "                                                   \n"
             "void main(void)                                    \n"
             "{                                                  \n"
+            " vec4 col;                                         \n"
+            " int textureSelect = int(Colors.x);                \n"
+            "   switch (textureSelect) {                        \n"
+            //"       case -4:                                    \n"
+            //"           col = texture(base, Texs);              \n"
+            //"           break;                                  \n"
+            "       case 1:                                     \n"
+            "       case 12:                                    \n"
+            "           col = texture(base, Texs);              \n"
+            "           break;                                  \n"
+            "       case 2:                                     \n"
+            "           col = texture(ceiling, Texs);           \n"
+            "           break;                                  \n"
+            "       case 52:                                     \n"
+            "       case 3:                                     \n"
+            "           col = texture(doorway, Texs);           \n"
+            "           break;                                  \n"
+            "       case 4:                                     \n"
+            "       case 15:                                    \n"
+            "           col = texture(floor, Texs);             \n"
+            "           break;                                  \n"
+            //"       case 12:                                    \n"
+            //"           col = texture(top, Texs);               \n"
+            //"           break;                                  \n"
+            "       case 16:                                    \n"
+            "       case 25:                                    \n"
+            "           col = texture(lrwall, Texs);            \n"
+            "           break;                                  \n"
+            "       case 51:                                    \n"
+            "           col = texture(panel1, Texs);            \n"
+            "           break;                                  \n"
+            "       case 53:                                    \n"
+            "           col = texture(panel3, Texs);            \n"
+            "           break;                                  \n"
+            "       case 54:                                    \n"
+            "           col = texture(panel4, Texs);            \n"
+            "           break;                                  \n"
+            "       default:                                    \n"
+            "           col = texture(fbwall, Texs);            \n"
+            "           break;                                  \n"
+            "   }                                               \n"
             //"   triColor = vec4(gl_FragCoord.x * 0.075),    \n"
             //"                sin(gl_FragCoord.y * 0.025),       \n"
             //"                sin(gl_FragCoord.x * 0.05),        \n"
@@ -279,10 +357,11 @@ public:
             "     float b = Colors.z;                            \n"
             //"     triColor = vec4(mix(vec3(r, g, b), vec3(Texs, 1.0), 23.0f), 1.0f);                    \n"
             //"     triColor = vec4(Texs, 0.5, 1.0) * vec4(1-r, 1-g, 1-b, 1.0);                               \n"
-            "     triColor = texture(tex2d, Texs);\n"// * vec4(Colors, 1.0);      \n"
-            //"     triColor = vec4(Texs, 0.0f, 1.0f);\n"
+            //"     vec4 COLskull = texture(skulllock, Texs);\n"// * vec4(Colors, 1.0);      \n"
+            //"     vec4 COLribs = texture(ceilingribs, Texs);\n"
+            "   triColor = col;                                                  \n"     //triColor = vec4(Texs, 0.0f, 1.0f);\n"
             //"triColor = vec4(r, g, b, 1.0f);                                  \n"
-            "     triColor = texture(tex2d, Texs);      \n"
+            //"     triColor = texture(tex2d, Texs);      \n"
             "}                                                  \n"
         };
 
@@ -332,6 +411,7 @@ public:
         //glBindAttribLocation(program, 0, "position");
         glLinkProgram(program);
 
+
         // Delete the shaders as the program has them now
         glDeleteShader(vertex_shader);
         glDeleteShader(fragment_shader);
@@ -367,6 +447,7 @@ int main() {
     glm::mat4 myMatrix;
     glm::mat4 forward;
     glm::mat4 backward;
+    glm::mat4 toward;
     glm::mat4 lookLeft;
     glm::mat4 lookRight;
     glEnable(GL_CULL_FACE);
@@ -385,10 +466,10 @@ int main() {
         0, 0, 0.997, 0,
         0, 0, 0, 1);
 
-    //forward = glm::mat4(1.003, 0, 0, 0,
-    //    0, 1.003, 0, 0,
-    //    0, 0, 1.003, 0,
-    //    0, 0, 0, 1);
+    toward = glm::mat4(1.003, 0, 0, 0,
+        0, 1.003, 0, 0,
+        0, 0, 1.003, 0,
+        0, 0, 0, 1);
 
     forward = glm::mat4(1, 0, 0, 0,
         0, 0.993, 0.118, 0,
@@ -510,6 +591,10 @@ int main() {
 
         else if (glfwGetKey(terminal, GLFW_KEY_DOWN) == GLFW_PRESS) {
             rotateStuff(faces, backward);
+        }
+
+        else if (glfwGetKey(terminal, GLFW_KEY_F) == GLFW_PRESS) {
+            rotateStuff(faces, toward);
         }
 
         else if (glfwGetKey(terminal, GLFW_KEY_LEFT) == GLFW_PRESS) {

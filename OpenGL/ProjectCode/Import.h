@@ -75,6 +75,8 @@ extern int facesSize1;
 extern glm::vec3* faces2; //from verts to faces
 extern int facesSize2;
 
+extern int* texmatData;
+
 //ints for textures: so far there are 9
 /*GLuint FaceArt1;        //blue face
 GLuint FaceArt2;        //sepia face
@@ -88,4 +90,5 @@ GLuint BoneDeatail2;    //bone arches*/
 glm::vec4* fillVerts(const char* filename, glm::vec4* faces);
 void setColor(float offset, int l);
 void rotateStuff(glm::vec4* myfaces, glm::mat4 myMatrix);
-void loadTextures();
+void loadTextures(GLuint* myTextures, GLuint shader);
+int soilMapping(GLuint* myTextures, GLuint shader, int i, const char* file, const char* name);

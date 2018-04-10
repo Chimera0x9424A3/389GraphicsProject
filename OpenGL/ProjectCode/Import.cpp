@@ -45,6 +45,7 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
     //each triangulated face has 9 floats in it (3 verts)
     //each vertex has a normal and a color
     verts = new float[numVerts * 3]();
+    texmatData = new int[numFaces]();
     norms = new glm::vec3[numNorms]();  //storing norms (not normals)
     normals = new glm::vec3[numFaces * 9](); //normals later
     uvs = new glm::vec2[numUVs]();  //like norms for textures
@@ -69,7 +70,7 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
                 verts[j] = x;
                 verts[j + 1] = y;
                 verts[j + 2] = z;
-                //cout << '\n' << x << y << z << '\n';
+                //cout << '\n' << "vert" << x << y << z << '\n';
                 j += 3;
             }
 
@@ -82,15 +83,16 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
                 norms[k].z = z;
                 k++;
                 //printf("\nfound a vert normal!\n");
-                //cout << '\n' << x << y << z << '\n';
+                //cout << '\n' << "vert norm" << x << y << z << '\n';
             }
 
             //maybe a texture
             else if (car == 't') {
                 //cout << car;
                 file >> x >> y;
-                textures[t].x = x;
-                textures[t].y = y;
+                uvs[t].x = x;
+                uvs[t].y = y;
+                //cout << '\n' << "vert uv" << x << y << '\n';
                 t++;
             }
 
@@ -106,19 +108,24 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
             finder2 = (a.substr(finder + 1, a.length())).find("/");
             stringstream(a.substr(finder + finder2, a.length())) >> a2;
             stringstream(a.substr(finder + 1, finder + finder2)) >> a3; //tex coord
-
+            //cout << "\n tex coord" << a1;
+           // cout << "\n tex coord" << a2;
+            //cout << "\n tex coord" << a3;
 
             finder = b.find("/");
             stringstream(b.substr(0, finder)) >> b1;
             finder2 = (b.substr(finder + 1, b.length())).find("/");
             stringstream(b.substr(finder + finder2, b.length())) >> b2;
             stringstream(b.substr(finder + 1, finder + finder2)) >> b3; //tex coord
+            //cout << "\n tex coord" << b3;
+
 
             finder = c.find("/");
             stringstream(c.substr(0, finder)) >> c1;
             finder2 = (c.substr(finder + 1, c.length())).find("/");
             stringstream(c.substr(finder + finder2, c.length())) >> c2;
             stringstream(c.substr(finder + 1, finder + finder2)) >> c3; //tex coord
+            //cout << "\n tex coord" << c3;
 
 
             //cout << "\n" << a3 << " " << b3 << " " << c3 << "\n";
@@ -146,8 +153,8 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
             normals[i + 1].x = norms[(b2 - 1)].x;
             normals[i + 1].y = norms[(b2 - 1)].y;
             normals[i + 1].z = norms[(b2 - 1)].z;
-            textures[i].x = uvs[(b3 - 1)].x;
-            textures[i].y = uvs[(b3 - 1)].y;
+            textures[i + 1].x = uvs[(b3 - 1)].x;
+            textures[i + 1].y = uvs[(b3 - 1)].y;
             //cout << '\n' << i + 1 << '\n' << normals[i + 1].x << '\n'
             //    << normals[i + 1].y << '\n'
             //    << normals[i + 1].z << '\n';
@@ -161,8 +168,8 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
             normals[i + 2].x = norms[(c2 - 1)].x;
             normals[i + 2].y = norms[(c2 - 1)].y;
             normals[i + 2].z = norms[(c2 - 1)].z;
-            textures[i].x = uvs[(c3 - 1)].x;
-            textures[i].y = uvs[(c3 - 1)].y;
+            textures[i + 2].x = uvs[(c3 - 1)].x;
+            textures[i + 2].y = uvs[(c3 - 1)].y;
             //cout << '\n' << i + 2 << '\n' << normals[i + 2].x << '\n'
             //    << normals[i + 2].y << '\n'
             //    << normals[i + 2].z << '\n';
@@ -179,45 +186,65 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
 
     //and now for some colors!
     char obj = '\0';
+    i = 0;
     while (getline(file, line)) {
         if (line[0] == 'o') {    //o for objects: color is based on object
             obj = line[2];
+            //texmatData[i] = obj - 'A';
         }
         else if (line[0] == 'f') {    //o for objects
+            //texmatData[i] = obj;
+            //cout << texmatData[i] << '\n';
             switch (obj) {
+                case '1':
+                    setColor(51, l);
+                    break;
+                case '2':
+                    setColor(52, l);
+                    break;
+                case '3':
+                    setColor(53, l);
+                    break;
+                case '4':
+                    setColor(54, l);
+                    break;
                 case 'B':
-                    setColor(0.25, l);
+                    setColor(1, l);
                     break;
                 case 'C':
-                    setColor(0.15, l);
+                    setColor(2, l);
                     break;
                 case 'D':
-                    setColor(0.35, l);
+                    setColor(3, l);
+                    break;
+                case 'F':
+                    setColor(4, l);
                     break;
                 case 'I':
-                    setColor(0.45, l);
+                    setColor(5, l);
                     break;
                 case 'L':
                 case 'W':
-                    setColor(0.55, l);
+                    setColor(10, l);
                     break;
                 case 'M':
-                    setColor(0.65, l);
+                    setColor(12, l);
                     break;
                 case 'O':
-                    setColor(0.75, l);
+                    setColor(15, l);
                     break;
                 case 'P':
-                    setColor(0.85, l);
+                    setColor(16, l);
                     break;
-                /*case 'W':
-                    setColor(0.95, l);*/
+                case 'S':
+                    setColor(25, l);
                     break;
                 default:
                     setColor(0, l);
                     break;
                 }
             l += 3;
+            i++;
         }
         //cout << colorCount << "\n";
     }
@@ -237,15 +264,24 @@ glm::vec4* fillVerts(const char* filename, glm::vec4* faces) {
 void setColor(float offset, int l) {
     //cout << "l is "<< l << "\n";
     int i = l;
-    colors[i].x = offset + normals[l].x * (1 - offset);
-    colors[i].y = offset + normals[l].y * (1 - offset);
-    colors[i].z = offset + normals[l].z * (1 - offset);
-    colors[i + 1].x = offset + normals[l].x * (1 - offset);
-    colors[i + 1].y = offset + normals[l].y * (1 - offset);
-    colors[i + 1].z = offset + normals[l].z * (1 - offset);
-    colors[i + 2].x = offset + normals[l].x * (1 - offset);
-    colors[i + 2].y = offset + normals[l].y * (1 - offset);
-    colors[i + 2].z = offset + normals[l].z * (1 - offset);
+    //colors[i].x = offset + normals[l].x * (1 - offset);
+    //colors[i].y = offset + normals[l].y * (1 - offset);
+    //colors[i].z = offset + normals[l].z * (1 - offset);
+    //colors[i + 1].x = offset + normals[l].x * (1 - offset);
+    //colors[i + 1].y = offset + normals[l].y * (1 - offset);
+    //colors[i + 1].z = offset + normals[l].z * (1 - offset);
+    //colors[i + 2].x = offset + normals[l].x * (1 - offset);
+    //colors[i + 2].y = offset + normals[l].y * (1 - offset);
+    //colors[i + 2].z = offset + normals[l].z * (1 - offset);
+    colors[i].x = offset;
+    colors[i].y = offset;
+    colors[i].z = offset;
+    colors[i + 1].x = offset;
+    colors[i + 1].y = offset;
+    colors[i + 1].z = offset;
+    colors[i + 2].x = offset;
+    colors[i + 2].y = offset;
+    colors[i + 2].z = offset;
     //cout << "i is " << i << "\n";
 }
 
@@ -260,21 +296,76 @@ void rotateStuff(glm::vec4* myfaces, glm::mat4 myMatrix) {
 }
 
 
-void loadTextures() {
-    /*GLuint SpookyWalls1 =    //skulls and locks
-        SOIL_load_OGL_texture("\blender\WallArt\WallArt4BMP.bmp",
-            SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);*/
+void loadTextures(GLuint* myTextures, GLuint shader) {
+    //textures!
+    int i = 0;
+    glGenTextures(15, myTextures);
 
-    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
-        //GL_UNSIGNED_BYTE, image);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt4BMP.bmp", "fbwall");
 
-    GLuint tex2d;
-    glGenTextures(1, &tex2d);
-    //glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, tex2d);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt13BMP.bmp", "ceiling");
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt6BMP.bmp", "base");
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt7BMP.bmp", "lrwall");
+
+    //glActiveTexture(GL_TEXTURE4);
+    //glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    //i = soilMapping(myTextures, shader, i, "WallArt9BMP.bmp", "top");
+
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt12BMP.bmp", "floor");
+
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt1BMP.bmp", "doorway");
+
+    glActiveTexture(GL_TEXTURE6);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt8BMP.bmp", "panel1");
+
+    glActiveTexture(GL_TEXTURE7);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt3BMP.bmp", "panel4");
+
+    glActiveTexture(GL_TEXTURE8);
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    i = soilMapping(myTextures, shader, i, "WallArt9BMP.bmp", "panel3");
+
+
+    //glActiveTexture(GL_TEXTURE7);
+    //glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    //i = soilMapping(myTextures, shader, i, "WallArt1BMP.bmp", "panel2");
+
+    //glActiveTexture(GL_TEXTURE7);
+    //glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    //i = soilMapping(myTextures, shader, i, "WallArt9BMP.bmp", "panel3");
+
+    //glActiveTexture(GL_TEXTURE9);
+    //glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+    //i = soilMapping(myTextures, shader, i, "WallArt1BMP.bmp", "panel4");
+
+    return;
+}
+
+
+int soilMapping(GLuint* myTextures, GLuint shader, int i, const char* file, const char* name) {
+    glBindTexture(GL_TEXTURE_2D, myTextures[i]);
+
+    glUseProgram(shader);
+    glUniform1i(glGetUniformLocation(shader, name), i);
 
     int width, height;
-    unsigned char* SpookyWalls1 = SOIL_load_image("WallArt4BMP.bmp", &width, &height, 0, SOIL_LOAD_RGB);
+    unsigned char* SpookyWalls1 = SOIL_load_image(file, &width, &height, 0, SOIL_LOAD_RGB);
 
     if (SpookyWalls1 == NULL) {
         cout << "Error with tex file\n";
@@ -285,22 +376,10 @@ void loadTextures() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glGenerateMipmap(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, SpookyWalls1);
-    
-    //float pixels[] = {
-    //    0.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,
-    //    1.0f, 1.0f, 1.0f,   0.0f, 0.0f, 0.0f
-    //};
-    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_FLOAT, pixels);
-
-    /*glBindTexture(GL_TEXTURE_2D, SpookyWalls1);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glGenerateMipmap(GL_TEXTURE_2D);*/
-
-    //SOIL_free_image_data(SpookyWalls1);
-
-    //SOIL_free_image_data(SpookyWalls1);
-
-    return;
+    glUniform1i(glGetUniformLocation(shader, name), i);
+    SOIL_free_image_data(SpookyWalls1);
+    i++;
+    return i;
 }
