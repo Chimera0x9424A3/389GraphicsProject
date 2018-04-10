@@ -99,5 +99,11 @@ Museum is still clipping weirdly; can see front from back and visa versa
 Tried to fix that with depth stuff, no luck so far  
 Going to meet with Amy tomorrow to try and fix textures  
 
+4/9  
+Textures are there!  
+All textures have been sucessfully mapped 
+Everything is present except for our model  
+User input is also a thing: translation, rotation, scaling, reset  
+Includes "art only" mode (Q and E) for easier focus on art  
 
 
