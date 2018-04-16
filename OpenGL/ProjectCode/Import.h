@@ -5,11 +5,11 @@
 
 #endif IMPORT_H
 
+// Include standard headers
 #include <iostream>
 #include <fstream>
 using namespace std;
 #include <string>
-// Include standard headers
 #include <stdio.h>
 #include <list>
 #include <stdlib.h>
@@ -44,49 +44,38 @@ using namespace std;
 #include <assimp-3.3.1\include\assimp\scene.h>
 #include <assimp-3.3.1\include\assimp\postprocess.h>
 
+//how many vertx, norms, faces, etc are there
+//used for array sizes; set in fillVerts function in Import.cpp
 extern int numVerts;
 extern int numNorms;
 extern int numFaces;
 extern int numLines;
 extern int numUVs;
-extern GLuint tex;
 
+//array data and corresponding sizes
+//sizes are are useful for when these are attached to vbos
 extern float* verts; //just stores some verts as floats (not as faces)
 extern int vertsSize;
 
 extern glm::vec3* colors; //do color calculation based on object in obj file
 extern int colorsSize;
 
-extern glm::vec3* norms; //normals for some verts
+extern glm::vec3* norms; //list of all normals
 extern int normsSize;
 
-extern glm::vec3* normals; //normals for all verts
+extern glm::vec3* normals; //normals for faces (from norms)
 extern int normalsSize;
 
-extern glm::vec2* uvs; //from verts to faces
+extern glm::vec2* uvs; //list of all uvs
 extern int uvsSize;
 
 extern glm::vec2* textures; //from verts to faces
 extern int texturesSize;
 
-extern glm::vec4* faces; //from verts to faces
+extern glm::vec4* faces; //from verts to faces (3 verts per face)
 extern int facesSize1;
 
-extern glm::vec3* faces2; //from verts to faces
-extern int facesSize2;
-
-extern int* texmatData;
-
-//ints for textures: so far there are 9
-/*GLuint FaceArt1;        //blue face
-GLuint FaceArt2;        //sepia face
-GLuint AlienArt1;       //yellowish
-GLuint AlienArt2;       //blackish
-GLuint MetalDetail1;    //pile of metal stuff
-GLuint BoneDeatail1;    //sepia color
-GLuint BoneDeatail2;    //bone arches*/
-//GLuint SpookyWalls2;    //skulls and faces
-
+//functions in Import.cpp
 glm::vec4* fillVerts(const char* filename, glm::vec4* faces);
 void setColor(float offset, int l);
 void rotateStuff(glm::vec4* myfaces, glm::mat4 myMatrix);
