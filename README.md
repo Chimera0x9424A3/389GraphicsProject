@@ -106,4 +106,8 @@ Everything is present except for our model
 User input is also a thing: translation, rotation, scaling, reset  
 Includes "art only" mode (Q and E) for easier focus on art  
 
-
+4/16  
+Museum is done??  
+Everything is there: art, walls, roof, floor, sculputre, textures, etc.  
+Adding new folder for our rubric with executable and stuff  
+Get Amy to check code to make sure it meets requirements  
